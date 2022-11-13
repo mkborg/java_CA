@@ -42,6 +42,7 @@ keytool \
 rm -fv "${LEAF_KEY_ID}".csr
 
 
+# Note: Only 'root CA' needs '-trustcacerts'
 keytool \
   -importcert \
   ${LEAF_KEY_STORE_OPTION} \
@@ -57,8 +58,6 @@ keytool \
   ${LEAF_KEY_STORE_PASSWORD_OPTION} \
   -alias "${SUB_CA_KEY_ID}"_certificate \
   -file "${SUB_CA_KEY_ID}".pem \
-  -noprompt \
-  -trustcacerts \
 
 keytool \
   -importcert \
