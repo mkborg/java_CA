@@ -1,2 +1,9 @@
-/*.pem
+/*.der
 /*.jks
+/*.pem
+*.-v.txt
+*.csr.txt
+*.der.txt
+*.jks.txt
+*.pem.txt
+*.-rfc.txt

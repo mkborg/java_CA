@@ -1,3 +1,3 @@
 #!/bin/bash -eux
 
-rm -fv *.jks *.pem *.csr
+rm -fv *{.csr,.der,.jks,.pem}{,{,.-rfc,.-v}.txt} *.p12

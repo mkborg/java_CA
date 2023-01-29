@@ -24,6 +24,7 @@ keytool \
   -printcertreq \
   -file "${SUB_CA_KEY_ID}".csr \
   -v \
+  > "${SUB_CA_KEY_ID}".csr.txt \
 
 
 # shall be done by 'root CA'
@@ -39,6 +40,12 @@ keytool \
   -outfile "${SUB_CA_KEY_ID}".pem \
 
 rm -fv "${SUB_CA_KEY_ID}".csr
+
+
+keytool \
+  -printcert \
+  -file "${SUB_CA_KEY_ID}".pem \
+  > "${SUB_CA_KEY_ID}".pem.txt \
 
 
 keytool \
@@ -63,5 +70,54 @@ keytool \
   -list \
   ${SUB_CA_KEY_STORE_OPTION} \
   ${SUB_CA_KEY_STORE_PASSWORD_OPTION} \
+  > "${SUB_CA_KEY_STORE}.txt" \
+
+keytool \
+  -list \
+  ${SUB_CA_KEY_STORE_OPTION} \
+  ${SUB_CA_KEY_STORE_PASSWORD_OPTION} \
   -v \
+  > "${SUB_CA_KEY_STORE}.-v.txt" \
+
+keytool \
+  -list \
+  ${SUB_CA_KEY_STORE_OPTION} \
+  ${SUB_CA_KEY_STORE_PASSWORD_OPTION} \
+  -rfc \
+  > "${SUB_CA_KEY_STORE}.-rfc.txt" \
+
+#keytool \
+#  -list \
+#  ${SUB_CA_KEY_STORE_OPTION} \
+#  ${SUB_CA_KEY_STORE_PASSWORD_OPTION} \
+#  -alias "${SUB_CA_KEY_ID}" \
+#  -rfc \
+#  > "${SUB_CA_KEY_STORE}.-rfc.${SUB_CA_KEY_ID}.txt" \
+
+
+#keytool \
+#  -exportcert \
+#  ${SUB_CA_KEY_STORE_OPTION} \
+#  ${SUB_CA_KEY_STORE_PASSWORD_OPTION} \
+#  -alias "${SUB_CA_KEY_ID}" \
+#  -rfc \
+#  > "${SUB_CA_KEY_ID}".exported.pem \
+
+keytool \
+  -exportcert \
+  ${SUB_CA_KEY_STORE_OPTION} \
+  ${SUB_CA_KEY_STORE_PASSWORD_OPTION} \
+  -alias "${SUB_CA_KEY_ID}" \
+  > "${SUB_CA_KEY_ID}".exported.der \
+
+
+#keytool \
+#  -printcert \
+#  -file "${SUB_CA_KEY_ID}".exported.pem \
+#  > "${SUB_CA_KEY_ID}".exported.pem.txt \
+
+#keytool \
+#  -printcert \
+#  -file "${SUB_CA_KEY_ID}".exported.der \
+#  > "${SUB_CA_KEY_ID}".exported.der.txt \
 
