@@ -8,6 +8,8 @@
 #    which is short for ca:true,pathlen:<len>. When <len> is omitted, you
 #    have ca:true.
 
+#  -storetype pkcs12 \
+
 keytool \
   -genkeypair \
   ${ROOT_CA_KEY_STORE_OPTION} \
@@ -17,9 +19,33 @@ keytool \
   -dname "${ROOT_CA_DISTINGUISHED_NAME}" \
   -ext bc:c \
 
+keytool \
+  -importkeystore \
+  -srckeystore "${ROOT_CA_JKS_KEY_STORE}" \
+  -srcstorepass:file "${ROOT_CA_PASSWORD_FILE}" \
+  -deststoretype pkcs12 \
+  -destkeystore "${ROOT_CA_P12_KEY_STORE}" \
+  -deststorepass:file "${ROOT_CA_PASSWORD_FILE}" \
+  -v \
+
+openssl \
+  pkcs12 \
+  -in "${ROOT_CA_P12_KEY_STORE}" \
+  -passin "file:${ROOT_CA_PASSWORD_FILE}" \
+  -out "${ROOT_CA_P12_KEY_STORE}".pem \
+  -nodes \
+
+openssl \
+  pkcs12 \
+  -in "${ROOT_CA_P12_KEY_STORE}" \
+  -passin "file:${ROOT_CA_PASSWORD_FILE}" \
+  -info \
+  -noout \
+  2> "${ROOT_CA_P12_KEY_STORE}".info.txt \
+
+
 # When -rfc is specified, the output format is Base64-encoded PEM;
 # otherwise, a binary DER is created
-
 keytool \
   -exportcert \
   ${ROOT_CA_KEY_STORE_OPTION} \

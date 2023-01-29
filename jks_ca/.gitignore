@@ -1,5 +1,6 @@
 /*.der
 /*.jks
+/*.p12
 /*.pem
 *.-v.txt
 *.csr.txt

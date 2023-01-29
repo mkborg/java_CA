@@ -3,6 +3,8 @@
 . 01.root_CA.config.sh
 . 02.sub_CA.config.sh
 
+#  -storetype pkcs12 \
+
 keytool \
   -genkeypair \
   ${SUB_CA_KEY_STORE_OPTION} \
@@ -40,7 +42,6 @@ keytool \
   -outfile "${SUB_CA_KEY_ID}".pem \
 
 rm -fv "${SUB_CA_KEY_ID}".csr
-
 
 keytool \
   -printcert \
@@ -120,4 +121,29 @@ keytool \
 #  -printcert \
 #  -file "${SUB_CA_KEY_ID}".exported.der \
 #  > "${SUB_CA_KEY_ID}".exported.der.txt \
+
+
+keytool \
+  -importkeystore \
+  -srckeystore "${SUB_CA_JKS_KEY_STORE}" \
+  -srcstorepass:file "${SUB_CA_PASSWORD_FILE}" \
+  -deststoretype pkcs12 \
+  -destkeystore "${SUB_CA_P12_KEY_STORE}" \
+  -deststorepass:file "${SUB_CA_PASSWORD_FILE}" \
+  -v \
+
+openssl \
+  pkcs12 \
+  -in "${SUB_CA_P12_KEY_STORE}" \
+  -passin "file:${SUB_CA_PASSWORD_FILE}" \
+  -out "${SUB_CA_P12_KEY_STORE}".pem \
+  -nodes \
+
+openssl \
+  pkcs12 \
+  -in "${SUB_CA_P12_KEY_STORE}" \
+  -passin "file:${SUB_CA_PASSWORD_FILE}" \
+  -info \
+  -noout \
+  2> "${SUB_CA_P12_KEY_STORE}".info.txt \
 
